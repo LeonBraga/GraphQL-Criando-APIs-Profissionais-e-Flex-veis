@@ -19,6 +19,7 @@ const usuarios = [
     email: "magna.a@aol.couk",
     idade: 25,
     telefone: "(75)01180-6777",
+    perfil_id: 1,
   },
   {
     id: 2,
@@ -26,6 +27,7 @@ const usuarios = [
     email: "non.luctus@icloud.org",
     idade: 28,
     telefone: "(60)21226-2724",
+    perfil_id: 1,
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ const usuarios = [
     email: "malesuada.malesuada@outlook.couk",
     idade: 42,
     telefone: "(68)60252-8433",
+    perfil_id: 2,
   },
   {
     id: 4,
@@ -40,6 +43,7 @@ const usuarios = [
     email: "pellentesque@google.com",
     idade: 35,
     telefone: "(11)23203-2162",
+    perfil_id: 1,
   },
   {
     id: 5,
@@ -47,6 +51,7 @@ const usuarios = [
     email: "urna.nunc.quis@outlook.net",
     idade: 33,
     telefone: "(66)27460-4633",
+    perfil_id: 1,
   },
 ];
 
@@ -65,6 +70,7 @@ const typeDefs = gql`
     idade: Int
     salario: Float
     vip: Boolean
+    perfil: Perfil
   }
 
   type Produto {
@@ -93,8 +99,11 @@ const resolvers = {
     salario(usuario) {
       return usuario.salario_real;
     },
-    salario(usuario) {
-      return usuario.salario_real;
+    perfil(usuario) {
+      const selecionados = perfis.filter(
+        (perfil) => perfil.id === usuario.perfil_id
+      );
+      return selecionados ? selecionados[0] : null;
     },
   },
 
@@ -158,9 +167,9 @@ const resolvers = {
     },
 
     perfil(_, { id }) {
-      const perfil = perfis.filter(perfil => perfil.id === id)
-      return perfil ? perfil[0] : null
-    }
+      const perfil = perfis.filter((perfil) => perfil.id === id);
+      return perfil ? perfil[0] : null;
+    },
   },
 };
 
