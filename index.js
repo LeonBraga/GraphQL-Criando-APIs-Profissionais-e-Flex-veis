@@ -1,10 +1,49 @@
 const { ApolloServer, gql } = require("apollo-server");
 
+//  Dados gerados em: https://generatedata.com/generator
+const usuarios = [
+  {
+    id: 1,
+    nome: "Rahim Payne",
+    email: "magna.a@aol.couk",
+    idade: 25,
+    telefone: "(75)01180-6777",
+  },
+  {
+    id: 2,
+    nome: "Adam Salas",
+    email: "non.luctus@icloud.org",
+    idade: 28,
+    telefone: "(60)21226-2724",
+  },
+  {
+    id: 3,
+    nome: "Robin Cox",
+    email: "malesuada.malesuada@outlook.couk",
+    idade: 42,
+    telefone: "(68)60252-8433",
+  },
+  {
+    id: 4,
+    nome: "Nomlanga Robinson",
+    email: "pellentesque@google.com",
+    idade: 35,
+    telefone: "(11)23203-2162",
+  },
+  {
+    id: 5,
+    nome: "Charde Hood",
+    email: "urna.nunc.quis@outlook.net",
+    idade: 33,
+    telefone: "(66)27460-4633",
+  },
+];
+
 const typeDefs = gql`
   scalar Date
 
   type Usuario {
-    id: ID
+    id: Int
     nome: String!
     email: String!
     idade: Int
@@ -26,6 +65,8 @@ const typeDefs = gql`
     usuarioLogado: Usuario
     produtoEmDestaque: Produto
     numerosMegaSena: [Int!]!
+    usuarios: [Usuario]
+    usuario(id: Int): Usuario
   }
 `;
 
@@ -83,6 +124,15 @@ const resolvers = {
         .fill(0)
         .map((numero) => parseInt(Math.random() * 10 + 1))
         .sort(crescente);
+    },
+
+    usuarios() {
+      return usuarios;
+    },
+
+    usuario(_, { id }) {
+      const selecionados = usuarios.filter((usuario) => usuario.id === id);
+      return selecionados ? selecionados[0] : null;
     },
   },
 };
